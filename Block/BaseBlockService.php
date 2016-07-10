@@ -186,6 +186,8 @@ abstract class BaseBlockService extends AbstractBlockService implements BlockAdm
         return $this->renderResponse($blockContext->getTemplate(), array(
             'block_context' => $blockContext,
             'block' => $blockContext->getBlock(),
+            'block_javascripts' => $this->getJavascripts('all'),
+            'block_stylesheets' => $this->getStylesheets('all'),
         ), $response);
     }
 

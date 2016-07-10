@@ -50,6 +50,9 @@ interface BlockServiceInterface
     public function load(BlockInterface $block);
 
     /**
+     * @deprecated since 3.x, to be removed in 4.0
+     *             Use the twig tag sonata_block_javascripts instead.
+     *
      * @param $media
      *
      * @return array
@@ -57,6 +60,9 @@ interface BlockServiceInterface
     public function getJavascripts($media);
 
     /**
+     * @deprecated since 3.x, to be removed in 4.0
+     *             Use the twig tag sonata_block_stylesheets instead.
+     *
      * @param $media
      *
      * @return array

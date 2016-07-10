@@ -8,6 +8,9 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
 #}
+{# NEXT_MAJOR: Remove this BC hack with the next major #}
+{% if block_javascripts is defined %}{% sonata_block_javascript block_javascripts %}{% endif %}
+{% if block_stylesheets is defined %}{% sonata_block_stylesheets block_stylesheets %}{% endif %}
 <div id="cms-block-{{ block.id }}" class="cms-block cms-block-element">
     {% block block %}EMPTY CONTENT{% endblock %}
 </div>

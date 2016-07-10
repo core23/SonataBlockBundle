@@ -12,6 +12,7 @@
 namespace Sonata\BlockBundle\Twig\Extension;
 
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
+use Sonata\BlockBundle\Twig\TokenParser\AssetTokenParser;
 
 class BlockExtension extends \Twig_Extension
 {
@@ -28,6 +29,17 @@ class BlockExtension extends \Twig_Extension
     public function __construct(BlockHelper $blockHelper)
     {
         $this->blockHelper = $blockHelper;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTokenParsers()
+    {
+        return array(
+            new AssetTokenParser('sonata_block_javascript', $this->blockHelper),
+            new AssetTokenParser('sonata_block_stylesheets', $this->blockHelper),
+        );
     }
 
     /**
