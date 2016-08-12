@@ -12,6 +12,7 @@
 namespace Sonata\BlockBundle\Block;
 
 use Psr\Log\LoggerInterface;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface as BSInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -148,7 +149,7 @@ class BlockServiceManager implements BlockServiceManagerInterface
         $services = array();
 
         foreach ($this->services as $service) {
-            if (!$service instanceof BlockServiceInterface) {
+            if (!$service instanceof BSInterface) {
                 continue;
             }
 
@@ -188,7 +189,7 @@ class BlockServiceManager implements BlockServiceManagerInterface
      *
      * @param $type
      *
-     * @return BlockServiceInterface
+     * @return BSInterface
      */
     private function load($type)
     {
@@ -196,11 +197,11 @@ class BlockServiceManager implements BlockServiceManagerInterface
             throw new \RuntimeException(sprintf('The block service `%s` does not exist', $type));
         }
 
-        if (!$this->services[$type] instanceof BlockServiceInterface) {
+        if (!$this->services[$type] instanceof BSInterface) {
             $this->services[$type] = $this->container->get($type);
         }
 
-        if (!$this->services[$type] instanceof BlockServiceInterface) {
+        if (!$this->services[$type] instanceof BSInterface) {
             throw new \RuntimeException(sprintf('The service %s does not implement BlockServiceInterface', $type));
         }
 
