@@ -25,7 +25,7 @@ class EmptyBlockService extends AbstractBlockService
         throw new \RuntimeException('Not used, this block renders an empty result if no block document can be found');
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response): Response
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         return new Response();
     }

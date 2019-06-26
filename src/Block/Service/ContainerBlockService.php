@@ -17,60 +17,55 @@ use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Form\Type\ContainerTemplateType;
 use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\ImmutableArrayType;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
 
 /**
  * Render children pages.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class ContainerBlockService extends AbstractAdminBlockService
+class ContainerBlockService extends AbstractBlockService implements EditableBlockService
 {
     /**
-     * {@inheritdoc}
+     * @var string
      */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
+    protected $name;
+
+    public function __construct(string $name, Environment $twig)
     {
-        $formMapper->add('enabled');
-
-        $formMapper->add('settings', ImmutableArrayType::class, [
-            'keys' => [
-                ['code', TextType::class, [
-                    'required' => false,
-                    'label' => 'form.label_code',
-                ]],
-                ['layout', TextareaType::class, [
-                    'label' => 'form.label_layout',
-                ]],
-                ['class', TextType::class, [
-                    'required' => false,
-                    'label' => 'form.label_class',
-                ]],
-                ['template', ContainerTemplateType::class, [
-                    'label' => 'form.label_template',
-                ]],
-            ],
-            'translation_domain' => 'SonataBlockBundle',
-        ]);
-
-        $formMapper->add('children', CollectionType::class, [], [
-            'admin_code' => 'sonata.page.admin.block',
-            'edit' => 'inline',
-            'inline' => 'table',
-            'sortable' => 'position',
-        ]);
+        parent::__construct($twig);
+        $this->name = $name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(BlockContextInterface $blockContext, Response $response): Response
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->configureForm($form, $block);
+    }
+
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->configureForm($form, $block);
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
+    {
+    }
+
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         return $this->renderResponse($blockContext->getTemplate(), [
             'block' => $blockContext->getBlock(),
@@ -79,9 +74,6 @@ class ContainerBlockService extends AbstractAdminBlockService
         ], $response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -92,12 +84,9 @@ class ContainerBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockMetadata($code = null)
+    public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataBlockBundle', [
+        return new Metadata($this->getName(), null, false, 'SonataBlockBundle', [
             'class' => 'fa fa-square-o',
         ]);
     }
@@ -123,5 +112,37 @@ class ContainerBlockService extends AbstractAdminBlockService
         ];
 
         return $decorator;
+    }
+
+    private function configureForm(FormMapper $form, BlockInterface $block): void
+    {
+        $form->add('enabled');
+
+        $form->add('settings', ImmutableArrayType::class, [
+            'keys' => [
+                ['code', TextType::class, [
+                    'required' => false,
+                    'label' => 'form.label_code',
+                ]],
+                ['layout', TextareaType::class, [
+                    'label' => 'form.label_layout',
+                ]],
+                ['class', TextType::class, [
+                    'required' => false,
+                    'label' => 'form.label_class',
+                ]],
+                ['template', ContainerTemplateType::class, [
+                    'label' => 'form.label_template',
+                ]],
+            ],
+            'translation_domain' => 'SonataBlockBundle',
+        ]);
+
+        $form->add('children', CollectionType::class, [], [
+            'admin_code' => 'sonata.page.admin.block',
+            'edit' => 'inline',
+            'inline' => 'table',
+            'sortable' => 'position',
+        ]);
     }
 }

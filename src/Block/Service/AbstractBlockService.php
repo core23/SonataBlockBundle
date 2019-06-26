@@ -17,7 +17,6 @@ use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Twig\Environment;
 
 /**
@@ -26,31 +25,19 @@ use Twig\Environment;
 abstract class AbstractBlockService implements BlockServiceInterface
 {
     /**
-     * @var string|null
-     */
-    protected $name;
-
-    /**
      * @var Environment
      */
     private $twig;
 
-    public function __construct(string $name, Environment $twig)
+    public function __construct(Environment $twig)
     {
-        $this->name = $name;
         $this->twig = $twig;
     }
 
     /**
      * Returns a Response object than can be cacheable.
-     *
-     * @param string   $view
-     * @param array    $parameters
-     * @param Response $response
-     *
-     * @return Response
      */
-    public function renderResponse($view, array $parameters = [], Response $response = null)
+    public function renderResponse(string $view, array $parameters = [], Response $response = null): Response
     {
         $response = $response ?? new Response();
 
@@ -62,27 +49,13 @@ abstract class AbstractBlockService implements BlockServiceInterface
     /**
      * Returns a Response object that cannot be cacheable, this must be used if the Response is related to the user.
      * A good solution to make the page cacheable is to configure the block to be cached with javascript ...
-     *
-     * @param string   $view
-     * @param array    $parameters
-     * @param Response $response
-     *
-     * @return Response
      */
-    public function renderPrivateResponse($view, array $parameters = [], Response $response = null)
+    public function renderPrivateResponse(string $view, array $parameters = [], Response $response = null): Response
     {
         return $this->renderResponse($view, $parameters, $response)
             ->setTtl(0)
             ->setPrivate()
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultSettings(OptionsResolverInterface $resolver): void
-    {
-        $this->configureSettings($resolver);
     }
 
     /**
@@ -115,7 +88,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockContextInterface $blockContext, Response $response): Response
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         return $this->renderResponse($blockContext->getTemplate(), [
             'block_context' => $blockContext,
@@ -123,18 +96,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
         ], $response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTwig()
+    final protected function getTwig(): Environment
     {
         return $this->twig;
     }

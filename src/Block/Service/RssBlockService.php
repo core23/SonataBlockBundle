@@ -16,6 +16,7 @@ namespace Sonata\BlockBundle\Block\Service;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\Form\Validator\ErrorElement;
@@ -23,15 +24,29 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class RssBlockService extends AbstractAdminBlockService
+class RssBlockService extends AbstractBlockService implements EditableBlockService
 {
     /**
-     * {@inheritdoc}
+     * @var string
      */
+    protected $name;
+
+    public function __construct(string $name, Environment $twig)
+    {
+        parent::__construct($twig);
+        $this->name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -44,42 +59,17 @@ class RssBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
-        $formMapper->add('settings', ImmutableArrayType::class, [
-            'keys' => [
-                ['url', UrlType::class, [
-                    'required' => false,
-                    'label' => 'form.label_url',
-                ]],
-                ['title', TextType::class, [
-                    'label' => 'form.label_title',
-                    'required' => false,
-                ]],
-                ['translation_domain', TextType::class, [
-                    'label' => 'form.label_translation_domain',
-                    'required' => false,
-                ]],
-                ['icon', TextType::class, [
-                    'label' => 'form.label_icon',
-                    'required' => false,
-                ]],
-                ['class', TextType::class, [
-                    'label' => 'form.label_class',
-                    'required' => false,
-                ]],
-            ],
-            'translation_domain' => 'SonataBlockBundle',
-        ]);
+        $this->configureForm($form, $block);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block): void
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->configureForm($form, $block);
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
     {
         $errorElement
             ->with('settings[url]')
@@ -93,10 +83,7 @@ class RssBlockService extends AbstractAdminBlockService
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(BlockContextInterface $blockContext, Response $response): Response
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         // merge settings
         $settings = $blockContext->getSettings();
@@ -131,13 +118,39 @@ class RssBlockService extends AbstractAdminBlockService
         ], $response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockMetadata($code = null)
+    public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataBlockBundle', [
+        return new Metadata($this->getName(), null, false, 'SonataBlockBundle', [
             'class' => 'fa fa-rss-square',
+        ]);
+    }
+
+    private function configureForm(FormMapper $form, BlockInterface $block): void
+    {
+        $form->add('settings', ImmutableArrayType::class, [
+            'keys' => [
+                ['url', UrlType::class, [
+                    'required' => false,
+                    'label' => 'form.label_url',
+                ]],
+                ['title', TextType::class, [
+                    'label' => 'form.label_title',
+                    'required' => false,
+                ]],
+                ['translation_domain', TextType::class, [
+                    'label' => 'form.label_translation_domain',
+                    'required' => false,
+                ]],
+                ['icon', TextType::class, [
+                    'label' => 'form.label_icon',
+                    'required' => false,
+                ]],
+                ['class', TextType::class, [
+                    'label' => 'form.label_class',
+                    'required' => false,
+                ]],
+            ],
+            'translation_domain' => 'SonataBlockBundle',
         ]);
     }
 }

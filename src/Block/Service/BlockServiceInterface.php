@@ -23,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 interface BlockServiceInterface
 {
-    public function execute(BlockContextInterface $blockContext, Response $response): Response;
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response;
 
     public function getName(): string;
 

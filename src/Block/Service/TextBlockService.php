@@ -16,21 +16,37 @@ namespace Sonata\BlockBundle\Block\Service;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class TextBlockService extends AbstractAdminBlockService
+class TextBlockService extends AbstractBlockService implements EditableBlockService
 {
     /**
-     * {@inheritdoc}
+     * @var string
      */
-    public function execute(BlockContextInterface $blockContext, Response $response): Response
+    protected $name;
+
+    public function __construct(string $name, Environment $twig)
+    {
+        parent::__construct($twig);
+        $this->name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         return $this->renderResponse($blockContext->getTemplate(), [
             'block' => $blockContext->getBlock(),
@@ -38,24 +54,20 @@ class TextBlockService extends AbstractAdminBlockService
         ], $response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
-        $formMapper->add('settings', ImmutableArrayType::class, [
-            'keys' => [
-                ['content', TextareaType::class, [
-                    'label' => 'form.label_content',
-                ]],
-            ],
-            'translation_domain' => 'SonataBlockBundle',
-        ]);
+        $this->configureForm($form, $block);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->configureForm($form, $block);
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
+    {
+    }
+
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -64,13 +76,22 @@ class TextBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockMetadata($code = null)
+    public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataBlockBundle', [
+        return new Metadata($this->getName(), null, false, 'SonataBlockBundle', [
             'class' => 'fa fa-file-text-o',
+        ]);
+    }
+
+    private function configureForm(FormMapper $form, BlockInterface $block): void
+    {
+        $form->add('settings', ImmutableArrayType::class, [
+            'keys' => [
+                ['content', TextareaType::class, [
+                    'label' => 'form.label_content',
+                ]],
+            ],
+            'translation_domain' => 'SonataBlockBundle',
         ]);
     }
 }
