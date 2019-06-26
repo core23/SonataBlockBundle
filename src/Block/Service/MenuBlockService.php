@@ -70,7 +70,7 @@ class MenuBlockService extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response): Response
     {
         $responseSettings = [
             'menu' => $this->getMenu($blockContext),
