@@ -21,6 +21,9 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class BlockHelperTest extends TestCase
 {
     public function testRenderEventWithNoListener()

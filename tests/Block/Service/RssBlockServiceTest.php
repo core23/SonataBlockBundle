@@ -19,6 +19,9 @@ use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Test\AbstractBlockServiceTestCase;
 use Sonata\BlockBundle\Util\OptionsResolver;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class RssBlockServiceTest extends AbstractBlockServiceTestCase
 {
     /*

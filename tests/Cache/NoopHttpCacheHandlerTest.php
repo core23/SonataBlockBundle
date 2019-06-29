@@ -17,6 +17,9 @@ use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Cache\HttpCacheHandlerInterface;
 use Sonata\BlockBundle\Cache\NoopHttpCacheHandler;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class NoopHttpCacheHandlerTest extends TestCase
 {
     public function testInterface()

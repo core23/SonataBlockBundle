@@ -16,6 +16,9 @@ namespace Sonata\BlockBundle\Tests\Naming;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Naming\ConvertFromFqcn;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class ConvertFromFqcnTest extends TestCase
 {
     /**

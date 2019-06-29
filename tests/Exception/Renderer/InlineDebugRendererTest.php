@@ -19,6 +19,8 @@ use Sonata\BlockBundle\Exception\Renderer\InlineDebugRenderer;
 /**
  * Test the inline debug exception renderer.
  *
+ * @final since sonata-project/block-bundle 4.0
+ *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 class InlineDebugRendererTest extends TestCase

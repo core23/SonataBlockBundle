@@ -17,6 +17,9 @@ use Doctrine\Common\Util\ClassUtils;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Block\BlockContextManager;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class BlockContextManagerTest extends TestCase
 {
     public function testGetWithValidData()
