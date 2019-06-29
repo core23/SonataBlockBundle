@@ -16,6 +16,9 @@ namespace Sonata\BlockBundle\Tests\Block;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Block\BlockServiceManager;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class BlockServiceManagerTest extends TestCase
 {
     public function testGetBlockService()

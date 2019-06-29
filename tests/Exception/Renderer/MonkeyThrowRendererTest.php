@@ -19,6 +19,8 @@ use Sonata\BlockBundle\Exception\Renderer\MonkeyThrowRenderer;
 /**
  * Test the monkey throw exception renderer.
  *
+ * @final since sonata-project/block-bundle 4.0
+ *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 class MonkeyThrowRendererTest extends TestCase

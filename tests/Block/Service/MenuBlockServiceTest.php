@@ -23,6 +23,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormTypeInterface;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class MenuBlockServiceTest extends AbstractBlockServiceTestCase
 {
     /**

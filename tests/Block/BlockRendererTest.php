@@ -22,6 +22,8 @@ use Sonata\BlockBundle\Exception\Strategy\StrategyManager;
 
 /**
  * Unit test of BlockRenderer class.
+ *
+ * @final since sonata-project/block-bundle 4.0
  */
 class BlockRendererTest extends TestCase
 {

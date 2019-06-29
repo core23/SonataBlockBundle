@@ -16,6 +16,9 @@ namespace Sonata\BlockBundle\Tests\Block;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Block\BlockContext;
 
+/**
+ * @final since sonata-project/block-bundle 4.0
+ */
 class BlockExecutionContextTest extends TestCase
 {
     public function testBasicFeature()

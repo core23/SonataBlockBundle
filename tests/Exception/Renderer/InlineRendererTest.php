@@ -19,6 +19,8 @@ use Sonata\BlockBundle\Exception\Renderer\InlineRenderer;
 /**
  * Test the inline exception renderer.
  *
+ * @final since sonata-project/block-bundle 4.0
+ *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 class InlineRendererTest extends TestCase

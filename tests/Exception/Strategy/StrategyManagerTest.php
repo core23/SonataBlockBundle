@@ -22,6 +22,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Test the Exception Strategy Manager.
  *
+ * @final since sonata-project/block-bundle 4.0
+ *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 class StrategyManagerTest extends TestCase
