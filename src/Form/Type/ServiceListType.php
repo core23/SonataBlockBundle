@@ -26,9 +26,6 @@ class ServiceListType extends AbstractType
 {
     protected $manager;
 
-    /**
-     * @param BlockServiceManagerInterface $manager
-     */
     public function __construct(BlockServiceManagerInterface $manager)
     {
         $this->manager = $manager;

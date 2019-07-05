@@ -59,8 +59,6 @@ class MenuBlockService extends AbstractAdminBlockService
 
     /**
      * @param string                     $name
-     * @param EngineInterface            $templating
-     * @param MenuProviderInterface      $menuProvider
      * @param MenuRegistryInterface|null $menuRegistry
      */
     public function __construct($name, EngineInterface $templating, MenuProviderInterface $menuProvider, $menuRegistry = null)
@@ -226,7 +224,6 @@ class MenuBlockService extends AbstractAdminBlockService
     /**
      * Gets the menu to render.
      *
-     * @param BlockContextInterface $blockContext
      *
      * @return ItemInterface|string
      */
@@ -240,7 +237,6 @@ class MenuBlockService extends AbstractAdminBlockService
     /**
      * Replaces setting keys with knp menu item options keys.
      *
-     * @param array $settings
      *
      * @return array
      */

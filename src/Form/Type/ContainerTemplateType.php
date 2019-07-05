@@ -29,9 +29,6 @@ class ContainerTemplateType extends AbstractType
      */
     protected $templateChoices;
 
-    /**
-     * @param array $templateChoices
-     */
     public function __construct(array $templateChoices)
     {
         $this->templateChoices = $templateChoices;

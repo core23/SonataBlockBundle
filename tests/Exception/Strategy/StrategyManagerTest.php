@@ -240,7 +240,6 @@ class StrategyManagerTest extends TestCase
     /**
      * Returns a mock container with defined services.
      *
-     * @param array $services
      *
      * @return ContainerInterface
      */

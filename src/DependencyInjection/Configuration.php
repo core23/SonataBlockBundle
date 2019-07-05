@@ -31,9 +31,6 @@ class Configuration implements ConfigurationInterface
      */
     protected $defaultContainerTemplates;
 
-    /**
-     * @param array $defaultContainerTemplates
-     */
     public function __construct(array $defaultContainerTemplates)
     {
         $this->defaultContainerTemplates = $defaultContainerTemplates;
@@ -244,9 +241,6 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     *
      * @return Configuration
      */
     public function getConfiguration(array $config, ContainerBuilder $container)
