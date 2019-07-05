@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * @final since sonata-project/block-bundle 4.0
+ * @final since sonata-project/block-bundle 3.0
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

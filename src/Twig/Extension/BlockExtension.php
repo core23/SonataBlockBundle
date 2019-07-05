@@ -18,7 +18,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * @final since sonata-project/block-bundle 4.0
+ * @final since sonata-project/block-bundle 3.0
  */
 class BlockExtension extends AbstractExtension
 {

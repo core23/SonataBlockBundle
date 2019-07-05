@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 /**
- * @final since sonata-project/block-bundle 4.0
+ * @final since sonata-project/block-bundle 3.0
  */
 class NoopHttpCacheHandler implements HttpCacheHandlerInterface
 {

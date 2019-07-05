@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * @final since sonata-project/block-bundle 4.0
+ * @final since sonata-project/block-bundle 3.0
  */
 class BlockContextManager implements BlockContextManagerInterface
 {

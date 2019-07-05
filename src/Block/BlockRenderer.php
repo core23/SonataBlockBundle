@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  * and set to the upper response (container can have child blocks, so the smallest ttl from a child
  * must be used in the container).
  *
- * @final since sonata-project/block-bundle 4.0
+ * @final since sonata-project/block-bundle 3.0
  */
 class BlockRenderer implements BlockRendererInterface
 {

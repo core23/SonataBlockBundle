@@ -18,7 +18,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 /**
  * This filters will ignore all exceptions.
  *
- * @final since sonata-project/block-bundle 4.0
+ * @final since sonata-project/block-bundle 3.0
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
